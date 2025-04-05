@@ -1,0 +1,20 @@
+{
+  "name": "ctsm",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "resolutions": {
+    "bun-types": "canary"
+  },
+  "dependencies": {
+    "@schemastore/package": "^0.0.10",
+    "@schemastore/prettierrc": "^0.0.10",
+    "bun": "^1.2.8",
+    "i": "^0.3.7"
+  }
+}
