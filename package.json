@@ -1,12 +1,18 @@
 {
   "name": "ctsm",
   "type": "module",
-  "private": true,
+  "version": "0.0.1",
   "bin": {
     "ctsm": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
-    "build": "tsup index.ts --format esm"
+    "build": "tsup index.ts --format esm",
+    "release": "bun run build && bun publish"
   },
   "devDependencies": {
     "@types/bun": "latest",
