@@ -1,5 +1,7 @@
 # ctsm
 
+[![Tests](https://github.com/alii/ctsm/actions/workflows/test.yml/badge.svg)](https://github.com/alii/ctsm/actions/workflows/test.yml)
+
 ```bash
 bunx ctsm [name]
 ```
