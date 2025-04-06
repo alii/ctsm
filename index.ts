@@ -69,6 +69,7 @@ console.log(`Writing package ${moduleName} at ${realPackageDirectory}`);
 const user = await getGitUser();
 
 await writeFiles(realPackageDirectory, {
+	'LICENSE': await mit(user.name),
 	'package.json': json<PackageJSON>({
 		name: moduleName,
 		version: '0.0.1',
@@ -119,19 +120,37 @@ await writeFiles(realPackageDirectory, {
 		quoteProps: 'consistent',
 	}),
 	'src/index.ts': code(`
-    export function add(a: number, b: number) {
-      return a + b;
-    }
-  `),
-	'LICENSE': await mit(user.name),
+    	export function add(a: number, b: number) {
+      		return a + b;
+    	}
+  	`),
 	'.gitignore': code(`
-    node_modules
-    dist
-    bun.lockb
-    .DS_Store
-    .idea
-    .vscode
-  `),
+    	node_modules
+    	dist
+    	bun.lockb
+    	.DS_Store
+    	.idea
+    	.vscode
+  	`),
+	'tsconfig.json': json({
+		compilerOptions: {
+			target: 'ESNext',
+			lib: ['dom', 'dom.iterable', 'esnext'],
+			allowJs: true,
+			skipLibCheck: true,
+			strict: true,
+			forceConsistentCasingInFileNames: true,
+			module: 'ESNext',
+			moduleResolution: 'Bundler',
+			resolveJsonModule: true,
+			isolatedModules: true,
+			noEmit: true,
+			allowImportingTsExtensions: true,
+			jsx: 'react-jsx',
+		},
+		exclude: ['node_modules', 'dist'],
+		include: ['**/*.ts', '**/*.tsx '],
+	}),
 });
 
 const install = installCommand(PACKAGE_MANAGER, ['prettier', 'typescript', 'tsup'], true);
