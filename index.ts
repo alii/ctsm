@@ -5,6 +5,7 @@ import type {SchemaForPrettierrc as PrettierRC} from '@schemastore/prettierrc';
 import {$} from 'bun';
 import * as path from 'node:path';
 import {parse} from './args.ts';
+import {getGitUser} from './git.ts';
 import {mit} from './mit.ts';
 import {code, confirmOrDie, die, getBinName, isDirectoryEmpty, json, writeFiles} from './util.ts';
 
@@ -34,7 +35,6 @@ if (!directoryName) {
 }
 
 const realPackageDirectory = path.resolve(cwd, directoryName);
-
 const moduleName = path.basename(realPackageDirectory);
 
 if (!SKIP_CONFIRMATION) {
@@ -46,16 +46,20 @@ if (!SKIP_CONFIRMATION) {
 
 console.log(`Writing package ${moduleName} at ${realPackageDirectory}`);
 
+const user = await getGitUser();
+
 await writeFiles(realPackageDirectory, {
 	'package.json': json<PackageJSON>({
 		name: moduleName,
 		version: '0.0.1',
 		description: 'Description',
 		keywords: [],
-		author: {
-			name: 'Author',
-			email: 'author@example.com',
-		},
+		author: user.name
+			? {
+					name: user.name,
+					email: user.email,
+				}
+			: undefined,
 		license: 'MIT',
 		type: 'module',
 		scripts: {
@@ -99,7 +103,7 @@ await writeFiles(realPackageDirectory, {
       return a + b;
     }
   `),
-	'LICENSE': await mit(),
+	'LICENSE': await mit(user.name),
 	'.gitignore': code(`
     node_modules
     dist

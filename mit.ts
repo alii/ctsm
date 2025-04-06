@@ -1,5 +1,3 @@
-import {$} from 'bun';
-
 const template = `
 MIT License
 
@@ -24,10 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 `.trim();
 
-export async function mit(username?: string) {
-	username ??= await $`git config --get user.name`.text();
+export async function mit(name: string | undefined) {
+	let t = template;
 
-	return template
-		.replace('[year]', new Date().getFullYear().toString())
-		.replace('[fullname]', username);
+	t = t.replace('[year]', new Date().getFullYear().toString());
+	if (name) t = t.replace('[fullname]', name);
+
+	return t;
 }
