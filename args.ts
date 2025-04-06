@@ -157,8 +157,9 @@ export function parse(argv: string[] = process.argv.slice(2)): [flags: Flags, ar
 			if (!key) continue;
 			flags.set(key, value ?? true);
 		} else if (arg.startsWith('-')) {
-			const key = arg.slice(1);
-			flags.set(key, true);
+			const [key, value] = arg.slice(1).split('=');
+			if (!key) continue;
+			flags.set(key, value ?? true);
 		} else {
 			args.push(arg);
 		}
