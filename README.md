@@ -4,10 +4,7 @@
 [![npm version](https://img.shields.io/npm/v/ctsm.svg)](https://www.npmjs.com/package/ctsm)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/55081046/169910416-52a2afc5-58f0-4e52-a6fd-8ebf1b14c7a3.svg" alt="TypeScript" width="100" />
-  <h3>Create a modern TypeScript library with a single command! ✨</h3>
-</div>
+<h3>Create a modern TypeScript library with a single command! ✨</h3>
 
 ## 💫 Features
 
