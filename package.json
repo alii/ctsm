@@ -1,7 +1,7 @@
 {
 	"name": "ctsm",
 	"type": "module",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"bin": {
 		"ctsm": "./dist/index.js"
 	},
@@ -27,8 +27,6 @@
 	},
 	"dependencies": {
 		"@schemastore/package": "^0.0.10",
-		"@schemastore/prettierrc": "^0.0.10",
-		"bun": "^1.2.8",
-		"i": "^0.3.7"
+		"@schemastore/prettierrc": "^0.0.10"
 	}
 }
