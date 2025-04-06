@@ -1,6 +1,6 @@
 {
 	"name": "ctsm",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"bin": {
 		"ctsm": "./dist/index.js"
 	},
@@ -39,6 +39,7 @@
 	"devDependencies": {
 		"@schemastore/package": "^0.0.10",
 		"@schemastore/prettierrc": "^0.0.10",
+		"@schemastore/tsconfig": "^0.0.11",
 		"@types/bun": "latest",
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",

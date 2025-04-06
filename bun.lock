@@ -6,6 +6,7 @@
       "devDependencies": {
         "@schemastore/package": "^0.0.10",
         "@schemastore/prettierrc": "^0.0.10",
+        "@schemastore/tsconfig": "^0.0.11",
         "@types/bun": "latest",
         "prettier": "^3.5.3",
         "tsup": "^8.4.0",
@@ -124,6 +125,8 @@
     "@schemastore/package": ["@schemastore/package@0.0.10", "", {}, "sha512-D3LxMCnkgsb4LO5sDKf6E+yahM2SqpEHmkqMPDSJis5Cy/j2MgWo/g/iq0lECK0mrPWfx3hqKm2ZJlqxwbRJQA=="],
 
     "@schemastore/prettierrc": ["@schemastore/prettierrc@0.0.10", "", {}, "sha512-zXu/8u6/dV4Xw+gJMSt5Pm5RzTs8fjaCSvoeuXPcZjV8Q2Rz7y4eDs97W3DIOMr1uJJGfd5XJCB7/6L+FHp15Q=="],
+
+    "@schemastore/tsconfig": ["@schemastore/tsconfig@0.0.11", "", {}, "sha512-glWQsBTycNVlq8ZrdvvEGyvHCmTfJy+inpjby4DokwBEyRj5+SFyjWbh1OkZf1cXbdCzrR/fZAQSm5vS73PaYA=="],
 
     "@types/bun": ["@types/bun@1.2.8", "", { "dependencies": { "bun-types": "1.2.7" } }, "sha512-t8L1RvJVUghW5V+M/fL3Thbxcs0HwNsXsnTEBEfEVqGteiJToOlZ/fyOEaR1kZsNqnu+3XA4RI/qmnX4w6+S+w=="],
 

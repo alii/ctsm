@@ -2,6 +2,7 @@
 
 import type {JSONSchemaForNPMPackageJsonFiles2 as PackageJSON} from '@schemastore/package';
 import type {SchemaForPrettierrc as PrettierRC} from '@schemastore/prettierrc';
+import type {JSONSchemaForTheTypeScriptCompilerSConfigurationFile as TSConfig} from '@schemastore/tsconfig';
 import {$} from 'bun';
 import * as path from 'node:path';
 import {parse} from './args.ts';
@@ -132,16 +133,16 @@ await writeFiles(realPackageDirectory, {
     	.idea
     	.vscode
   	`),
-	'tsconfig.json': json({
+	'tsconfig.json': json<TSConfig>({
 		compilerOptions: {
 			target: 'ESNext',
-			lib: ['dom', 'dom.iterable', 'esnext'],
+			lib: ['DOM', 'DOM.Iterable', 'ESNext'],
 			allowJs: true,
 			skipLibCheck: true,
 			strict: true,
 			forceConsistentCasingInFileNames: true,
 			module: 'ESNext',
-			moduleResolution: 'Bundler',
+			moduleResolution: 'bundler',
 			resolveJsonModule: true,
 			isolatedModules: true,
 			noEmit: true,
