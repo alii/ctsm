@@ -3,17 +3,13 @@
   "workspaces": {
     "": {
       "name": "ctsm",
-      "dependencies": {
+      "devDependencies": {
         "@schemastore/package": "^0.0.10",
         "@schemastore/prettierrc": "^0.0.10",
-      },
-      "devDependencies": {
         "@types/bun": "latest",
         "prettier": "^3.5.3",
         "tsup": "^8.4.0",
-      },
-      "peerDependencies": {
-        "typescript": "^5",
+        "typescript": "^5.8.3",
       },
     },
   },

@@ -23,6 +23,21 @@ const PACKAGE_MANAGER = flags.getStringAsOptionOrDefault(
 	'bun',
 );
 
+function installCommand(
+	packageManager: typeof PACKAGE_MANAGER,
+	packages: string[],
+	options: {
+		dev: boolean;
+	},
+) {
+	return {
+		npm: () => `npm install ${options.dev ? '--save-dev' : '--save'} ${packages.join(' ')}`,
+		yarn: () => `yarn add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
+		pnpm: () => `pnpm add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
+		bun: () => `bun add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
+	}[packageManager]();
+}
+
 if (!directoryName) {
 	if (probablyIsThisProject) {
 		die('Error: Expected this folder to have a name');
@@ -119,6 +134,6 @@ await writeFiles(realPackageDirectory, {
 });
 
 await $`
-  ${PACKAGE_MANAGER} install prettier typescript tsup --save-dev
+  ${installCommand(PACKAGE_MANAGER, ['prettier', 'typescript', 'tsup'], {dev: true})}
   git init
 `.cwd(realPackageDirectory);
