@@ -2,8 +2,15 @@
   "name": "ctsm",
   "type": "module",
   "private": true,
+  "bin": {
+    "ctsm": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup index.ts --format esm"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "tsup": "^8.4.0"
   },
   "peerDependencies": {
     "typescript": "^5"

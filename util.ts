@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import * as rl from 'readline/promises';
+import * as rl from 'node:readline/promises';
 // confirmOrDie, die, getBinName, isDirectoryEmpty, json, writeFiles
 
 const ansi = {
@@ -26,8 +26,6 @@ export async function confirm(message: string, options: { acceptDefault: boolean
     input: process.stdin,
     output: process.stdout,
   });
-
-  AbortSignal.timeout;
 
   const answer = await i.question(message);
 
