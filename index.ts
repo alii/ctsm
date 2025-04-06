@@ -17,7 +17,11 @@ const [flags, args] = parse();
 const [directoryName = probablyIsThisProject ? cwd : null] = args;
 
 const SKIP_CONFIRMATION = flags.getBooleanOrDefault('y', false);
-const PACKAGE_MANAGER = flags.getStringAsOptionOrThrow('p', ['bun', 'npm', 'yarn', 'pnpm']);
+const PACKAGE_MANAGER = flags.getStringAsOptionOrDefault(
+	'p',
+	['bun', 'npm', 'yarn', 'pnpm'],
+	'bun',
+);
 
 if (!directoryName) {
 	if (probablyIsThisProject) {
