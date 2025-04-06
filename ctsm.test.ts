@@ -233,11 +233,33 @@ describe('CTSM Integration Tests', () => {
 		}
 	});
 
+	async function isPackageManagerAvailable(packageManager: string): Promise<boolean> {
+		try {
+			const proc = Bun.spawn({
+				cmd: ['which', packageManager],
+				stdout: 'pipe',
+				stderr: 'pipe',
+			});
+			const exitCode = await proc.exited;
+			return exitCode === 0;
+		} catch (error) {
+			console.log(`Package manager ${packageManager} is not available`);
+			return false;
+		}
+	}
+
 	const packageManagers = ['bun', 'npm', 'yarn', 'pnpm'];
 
 	for (const packageManager of packageManagers) {
 		describe(`with ${packageManager}`, () => {
 			it(`should create a new project with ${packageManager}`, async () => {
+				if (!(await isPackageManagerAvailable(packageManager))) {
+					console.log(
+						`Skipping test for ${packageManager} as it's not available in this environment`,
+					);
+					return;
+				}
+
 				const projectName = `test-project-${packageManager}`;
 				const projectPath = path.join(tmpDir, projectName);
 
@@ -250,6 +272,13 @@ describe('CTSM Integration Tests', () => {
 			}, 120000);
 
 			it(`should fail when creating project in non-empty directory with ${packageManager}`, async () => {
+				if (!(await isPackageManagerAvailable(packageManager))) {
+					console.log(
+						`Skipping test for ${packageManager} as it's not available in this environment`,
+					);
+					return;
+				}
+
 				const projectName = `test-project-exists-${packageManager}`;
 				const projectPath = path.join(tmpDir, projectName);
 
