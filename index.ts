@@ -32,10 +32,10 @@ function installCommand(packageManager: typeof PACKAGE_MANAGER, packages: string
 	};
 
 	return {
-		npm: () => $`npm install ${lastTwo(dev ? '--save-dev ' : '--save ')}`,
-		yarn: () => $`yarn add ${lastTwo(dev ? '--dev ' : ' ')}`,
-		pnpm: () => $`pnpm add ${lastTwo(dev ? '--save-dev ' : ' ')}`,
-		bun: () => $`bun i ${lastTwo(dev ? '--bun ' : ' ')}`,
+		npm: () => $`npm install ${lastTwo(dev ? '--save-dev' : '--save')}`,
+		yarn: () => $`yarn add ${lastTwo(dev ? '--dev' : '')}`,
+		pnpm: () => $`pnpm add ${lastTwo(dev ? '--save-dev' : '')}`,
+		bun: () => $`bun i ${lastTwo(dev ? '--bun' : '')}`,
 	}[packageManager]();
 }
 
@@ -83,7 +83,7 @@ await writeFiles(realPackageDirectory, {
 		license: 'MIT',
 		type: 'module',
 		scripts: {
-			build: 'tsup',
+			build: PACKAGE_MANAGER === 'npm' ? 'npx tsup' : `${PACKAGE_MANAGER} tsup`,
 			release: `${PACKAGE_MANAGER} run build && ${PACKAGE_MANAGER} publish`,
 		},
 		exports: {
