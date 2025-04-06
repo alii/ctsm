@@ -1,9 +1,28 @@
 {
 	"name": "ctsm",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"bin": {
 		"ctsm": "./dist/index.js"
 	},
+	"description": "Create a modern TypeScript library with a single command",
+	"author": {
+		"name": "Alistair Smith",
+		"email": "hi@alistair.sh"
+	},
+	"keywords": [
+		"typescript",
+		"library",
+		"cli"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alii/ctsm"
+	},
+	"homepage": "https://github.com/alii/ctsm",
+	"bugs": {
+		"url": "https://github.com/alii/ctsm/issues"
+	},
+	"license": "MIT",
 	"files": [
 		"dist",
 		"package.json",
@@ -25,5 +44,5 @@
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.3"
 	},
-	"packageManager": "pnpm@10.3.0+sha512.ee592eda8815a8a293c206bb0917c4bb0ff274c50def7cbc17be05ec641fc2d1b02490ce660061356bd0d126a4d7eb2ec8830e6959fb8a447571c631d5a2442d"
+	"packageManager": "bun@1.2.8"
 }
