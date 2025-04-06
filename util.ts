@@ -75,19 +75,15 @@ function taggedTemplateFunction<T = any>(
 }
 
 export const code = taggedTemplateFunction(strings => {
-	const allLines = strings.join('').split('\n');
+	const allLines = strings.join('').trimEnd().split('\n');
 
 	const indexOfFirstNonEmptyLine = allLines.findIndex(line => line.trim() !== '');
 
-	const indexOfFirstLastEmptyLines = allLines.findIndex((line, index) => {
-		return index > indexOfFirstNonEmptyLine && line.trim() === '';
-	});
+	const lines = allLines.slice(indexOfFirstNonEmptyLine);
 
-	const lines = allLines.slice(indexOfFirstNonEmptyLine, indexOfFirstLastEmptyLines + 1);
+	const indent = lines[0]!.match(/^\s*/)?.[0];
 
-	const commonIndent = lines[0]!.match(/^\s*/)?.[0];
-
-	return lines.map(line => line.slice(commonIndent!.length)).join('\n');
+	return lines.map(line => line.slice(indent!.length)).join('\n');
 });
 
 export function flagIsElse<const T, Else>(

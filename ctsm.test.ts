@@ -11,8 +11,7 @@ it('code() util function', () => {
         `),
 	).toBe(`function add(a: number, b: number) {
     return a + b;
-}
-`);
+}`);
 
 	expect(
 		code(`
@@ -28,8 +27,7 @@ it('code() util function', () => {
     `),
 	).toBe(`function add(a: number, b: number) {
     return a + b;
-}
-`);
+}`);
 });
 
 it('json() util function', () => {

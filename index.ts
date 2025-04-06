@@ -96,17 +96,17 @@ await writeFiles(realPackageDirectory, {
 		files: ['LICENSE', 'README.md', 'dist'],
 	}),
 	'tsup.config.ts': code(`
-    import {defineConfig} from 'tsup';
-
-    export default defineConfig({
-      entry: ['./src/index.ts'],
-      format: ['esm', 'cjs'],
-      clean: true,
-      dts: true,
-      splitting: true,
-      treeshake: true,
-    });
-  `),
+    	import {defineConfig} from 'tsup';
+		
+    	export default defineConfig({
+    		entry: ['./src/index.ts'],
+    		format: ['esm', 'cjs'],
+    		clean: true,
+    		dts: true,
+    		splitting: true,
+    		treeshake: true,
+    	});
+  	`),
 	'.prettierrc': json<PrettierRC>({
 		$schema: 'http://json.schemastore.org/prettierrc',
 		singleQuote: true,
