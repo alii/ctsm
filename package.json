@@ -1,33 +1,34 @@
 {
-  "name": "ctsm",
-  "type": "module",
-  "version": "0.0.3",
-  "bin": {
-    "ctsm": "./dist/index.js"
-  },
-  "files": [
-    "dist",
-    "package.json",
-    "README.md"
-  ],
-  "scripts": {
-    "build": "tsup index.ts --format esm",
-    "release": "bun run build && bun publish"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "tsup": "^8.4.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "resolutions": {
-    "bun-types": "canary"
-  },
-  "dependencies": {
-    "@schemastore/package": "^0.0.10",
-    "@schemastore/prettierrc": "^0.0.10",
-    "bun": "^1.2.8",
-    "i": "^0.3.7"
-  }
+	"name": "ctsm",
+	"type": "module",
+	"version": "0.0.4",
+	"bin": {
+		"ctsm": "./dist/index.js"
+	},
+	"files": [
+		"dist",
+		"package.json",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsup index.ts --format esm",
+		"release": "bun run build && bun publish"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"prettier": "^3.5.3",
+		"tsup": "^8.4.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"resolutions": {
+		"bun-types": "canary"
+	},
+	"dependencies": {
+		"@schemastore/package": "^0.0.10",
+		"@schemastore/prettierrc": "^0.0.10",
+		"bun": "^1.2.8",
+		"i": "^0.3.7"
+	}
 }

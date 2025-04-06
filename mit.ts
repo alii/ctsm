@@ -1,4 +1,4 @@
-import { $ } from 'bun';
+import {$} from 'bun';
 
 const template = `
 MIT License
@@ -25,9 +25,9 @@ SOFTWARE.
 `.trim();
 
 export async function mit(username?: string) {
-  username ??= await $`git config --get user.name`.text();
+	username ??= await $`git config --get user.name`.text();
 
-  return template
-    .replace('[year]', new Date().getFullYear().toString())
-    .replace('[fullname]', username);
+	return template
+		.replace('[year]', new Date().getFullYear().toString())
+		.replace('[fullname]', username);
 }
