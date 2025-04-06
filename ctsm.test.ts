@@ -1,4 +1,5 @@
-import {expect, it} from 'bun:test';
+import {describe, expect, it} from 'bun:test';
+import {parse} from './args';
 import {code, json} from './util';
 
 it('code() util function', () => {
@@ -26,7 +27,7 @@ it('code() util function', () => {
 
     `),
 	).toBe(`function add(a: number, b: number) {
-return a + b;
+    return a + b;
 }
 `);
 });
@@ -34,9 +35,6 @@ return a + b;
 it('json() util function', () => {
 	expect(json({a: 1, b: 2})).toBe(`{\n\t"a": 1,\n\t"b": 2\n}`);
 });
-
-import {describe} from 'bun:test';
-import {parse} from './args';
 
 describe('args parser', () => {
 	it('should parse empty args', () => {
