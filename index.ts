@@ -113,4 +113,4 @@ await writeFiles(realPackageDirectory, {
   `),
 });
 
-await $`${PACKAGE_MANAGER} install prettier tsup --save-dev`.cwd(realPackageDirectory);
+await $`${PACKAGE_MANAGER} install prettier typescript tsup --save-dev`.cwd(realPackageDirectory);
