@@ -104,7 +104,7 @@ describe('CTSM Integration Tests', () => {
 		let stderr = '';
 
 		const proc = Bun.spawn({
-			cmd: ['bun', ctsmBin, ...args, '--y'],
+			cmd: ['bun', ctsmBin, ...args, '-y'],
 			cwd,
 			stdout: 'pipe',
 			stderr: 'pipe',
@@ -128,7 +128,7 @@ describe('CTSM Integration Tests', () => {
 
 		const exitCode = await proc.exited;
 
-		console.log(`Command executed: bun ${ctsmBin} ${args.join(' ')} --y`);
+		console.log(`Command executed: bun ${ctsmBin} ${args.join(' ')} -y`);
 		console.log(`Exit code: ${exitCode}`);
 		console.log(`Stdout: ${stdout}`);
 		console.log(`Stderr: ${stderr}`);
@@ -305,9 +305,9 @@ describe('CTSM Integration Tests', () => {
 		await verifyProject(emptyDir, 'bun');
 	}, 30000);
 
-	it('should respect --y flag to skip confirmation', async () => {
+	it('should respect -y flag to skip confirmation', async () => {
 		const projectName = 'test-project-y-flag';
-		const {exitCode, stdout, stderr} = await runCTSM([projectName, '--y']);
+		const {exitCode, stdout, stderr} = await runCTSM([projectName, '-y']);
 
 		expect(exitCode).toBe(0);
 
