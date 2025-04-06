@@ -233,7 +233,7 @@ describe('CTSM Integration Tests', () => {
 		}
 	});
 
-	const packageManagers = isCI ? ['bun'] : ['bun', 'npm', 'yarn', 'pnpm'];
+	const packageManagers = ['bun', 'npm', 'yarn', 'pnpm'];
 
 	for (const packageManager of packageManagers) {
 		describe(`with ${packageManager}`, () => {
@@ -243,21 +243,10 @@ describe('CTSM Integration Tests', () => {
 
 				const {exitCode, stdout, stderr} = await runCTSM([projectName, `--p=${packageManager}`]);
 
-				if (isCI) {
-					console.log('In CI environment, skipping exit code check');
-				} else {
-					expect(exitCode).toBe(0);
-				}
+				expect(exitCode).toBe(0);
 
-				try {
-					await fs.access(projectPath);
-					await verifyProject(projectPath, packageManager);
-				} catch (error) {
-					console.error(`Failed to verify project: ${error}`);
-					if (!isCI) {
-						throw error;
-					}
-				}
+				await fs.access(projectPath);
+				await verifyProject(projectPath, packageManager);
 			}, 120000);
 
 			it(`should fail when creating project in non-empty directory with ${packageManager}`, async () => {
@@ -282,74 +271,17 @@ describe('CTSM Integration Tests', () => {
 
 		const {exitCode, stdout, stderr} = await runCTSM([], emptyDir);
 
-		if (isCI) {
-			console.log('In CI environment, skipping exit code check');
-		} else {
-			expect(exitCode).toBe(0);
-		}
+		expect(exitCode).toBe(0);
 
-		try {
-			await verifyProject(emptyDir, 'bun');
-		} catch (error) {
-			console.error(`Failed to verify project: ${error}`);
-			if (!isCI) {
-				throw error;
-			}
-		}
+		await verifyProject(emptyDir, 'bun');
 	}, 30000);
 
 	it('should respect --y flag to skip confirmation', async () => {
 		const projectName = 'test-project-y-flag';
 		const {exitCode, stdout, stderr} = await runCTSM([projectName, '--y']);
 
-		if (isCI) {
-			console.log('In CI environment, skipping exit code check');
-		} else {
-			expect(exitCode).toBe(0);
-		}
+		expect(exitCode).toBe(0);
 
 		expect(stdout).not.toContain('Y/n');
 	}, 30000);
-
-	if (isCI) {
-		it('should create a basic project structure in CI', async () => {
-			const projectName = 'ci-test-project';
-			const projectPath = path.join(tmpDir, projectName);
-
-			await fs.mkdir(projectPath, {recursive: true});
-
-			const packageJson = {
-				name: projectName,
-				version: '0.0.1',
-				description: 'Test project',
-				scripts: {
-					build: 'bun tsup',
-					release: 'bun run build && bun publish',
-				},
-			};
-			await fs.writeFile(
-				path.join(projectPath, 'package.json'),
-				JSON.stringify(packageJson, null, 2),
-			);
-
-			const srcDir = path.join(projectPath, 'src');
-			await fs.mkdir(srcDir, {recursive: true});
-			await fs.writeFile(
-				path.join(srcDir, 'index.ts'),
-				'export function add(a: number, b: number) { return a + b; }',
-			);
-
-			const files = await fs.readdir(projectPath);
-			expect(files).toContain('package.json');
-
-			const srcFiles = await fs.readdir(srcDir);
-			expect(srcFiles).toContain('index.ts');
-
-			const packageJsonContent = await fs.readFile(path.join(projectPath, 'package.json'), 'utf-8');
-			const parsedPackageJson = JSON.parse(packageJsonContent);
-			expect(parsedPackageJson.name).toBe(projectName);
-
-			console.log('Successfully created a basic project structure in CI');
-		});
-	}
 });

@@ -6,7 +6,7 @@ export async function getGitUser(): Promise<
 		email?: string;
 	} & Record<string, string | undefined>
 > {
-	const text = await $`git config --get-regexp user.`.text();
+	const text = await $`git config --get-regexp user.`.nothrow().text();
 
 	const map = text
 		.trim()
