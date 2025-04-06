@@ -12,8 +12,8 @@ export async function getGitUser(): Promise<
 		.trim()
 		.split('\n')
 		.map(line => {
-			const [key, value] = line.split(' ');
-			return [key!.replace('user.', ''), value];
+			const [key, ...value] = line.split(' ');
+			return [key!.replace('user.', ''), value.join(' ')];
 		});
 
 	return Object.fromEntries(map);

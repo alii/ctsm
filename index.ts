@@ -23,18 +23,19 @@ const PACKAGE_MANAGER = flags.getStringAsOptionOrDefault(
 	'bun',
 );
 
-function installCommand(
-	packageManager: typeof PACKAGE_MANAGER,
-	packages: string[],
-	options: {
-		dev: boolean;
-	},
-) {
+function installCommand(packageManager: typeof PACKAGE_MANAGER, packages: string[], dev: boolean) {
+	const p = {raw: packages.map(p => $.escape(p)).join(' ')};
+
+	const lastTwo = (dev_string: string, normal_string: string = '') => {
+		if (dev) return [dev_string, p];
+		return [normal_string, p];
+	};
+
 	return {
-		npm: () => `npm install ${options.dev ? '--save-dev' : '--save'} ${packages.join(' ')}`,
-		yarn: () => `yarn add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
-		pnpm: () => `pnpm add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
-		bun: () => `bun add ${options.dev ? '--dev' : ''} ${packages.join(' ')}`,
+		npm: () => $`npm install ${lastTwo(dev ? '--save-dev ' : '--save ')}`,
+		yarn: () => $`yarn add ${lastTwo(dev ? '--dev ' : ' ')}`,
+		pnpm: () => $`pnpm add ${lastTwo(dev ? '--save-dev ' : ' ')}`,
+		bun: () => $`bun i ${lastTwo(dev ? '--bun ' : ' ')}`,
 	}[packageManager]();
 }
 
@@ -133,7 +134,7 @@ await writeFiles(realPackageDirectory, {
   `),
 });
 
-await $`
-  ${installCommand(PACKAGE_MANAGER, ['prettier', 'typescript', 'tsup'], {dev: true})}
-  git init
-`.cwd(realPackageDirectory);
+const install = installCommand(PACKAGE_MANAGER, ['prettier', 'typescript', 'tsup'], true);
+await install.cwd(realPackageDirectory);
+
+await $`git init`.cwd(realPackageDirectory);
