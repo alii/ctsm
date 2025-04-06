@@ -21,17 +21,7 @@
 ## 🚀 Quick Start
 
 ```bash
-# With bun (recommended)
 bunx ctsm@latest my-awesome-library
-
-# With npm
-npx ctsm@latest my-awesome-library
-
-# With yarn
-yarn dlx ctsm@latest my-awesome-library
-
-# With pnpm
-pnpm dlx ctsm@latest my-awesome-library
 ```
 
 ## 🛠️ Command Line Options

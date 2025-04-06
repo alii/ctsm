@@ -1,6 +1,6 @@
 {
 	"name": "ctsm",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"bin": {
 		"ctsm": "./dist/index.js"
 	},
