@@ -6,7 +6,16 @@ import { $ } from 'bun';
 import * as path from 'node:path';
 import { parse } from './args.ts';
 import { mit } from './mit.ts';
-import { confirmOrDie, die, getBinName, isDirectoryEmpty, json, writeFiles } from './util.ts';
+import {
+  code,
+  confirmOrDie,
+  die,
+  flagIsElse,
+  getBinName,
+  isDirectoryEmpty,
+  json,
+  writeFiles,
+} from './util.ts';
 
 const cwd = process.cwd();
 
@@ -16,6 +25,7 @@ const [flags, args] = parse();
 const [directoryName = probablyIsThisProject ? cwd : null] = args;
 
 const SKIP_CONFIRMATION = flags.y === true;
+const PACKAGE_MANAGER = flagIsElse(flags.p, ['bun', 'npm', 'yarn', 'pnpm'], 'bun');
 
 if (!directoryName) {
   if (probablyIsThisProject) {
@@ -37,9 +47,10 @@ const realPackageDirectory = path.resolve(cwd, directoryName);
 const moduleName = path.basename(realPackageDirectory);
 
 if (!SKIP_CONFIRMATION) {
-  await confirmOrDie(`Create '${moduleName}' at ${realPackageDirectory}? (Y/n)`, {
-    acceptDefault: true,
-  });
+  await confirmOrDie(
+    `Create '${moduleName}' with ${PACKAGE_MANAGER} at ${realPackageDirectory}? (Y/n) `,
+    { acceptDefault: true }
+  );
 }
 
 console.log(`Writing package ${moduleName} at ${realPackageDirectory}`);
@@ -52,10 +63,29 @@ await writeFiles(realPackageDirectory, {
     license: 'MIT',
     scripts: {
       build: 'tsup',
-      release: 'bun run build && bun publish',
+      release: `${PACKAGE_MANAGER} run build && ${PACKAGE_MANAGER} publish`,
+    },
+    exports: {
+      './package.json': './package.json',
+      '.': {
+        import: './dist/index.js',
+        require: './dist/index.js',
+      },
     },
     files: ['LICENSE', 'README.md', 'dist'],
   }),
+  'tsup.config.ts': code(`
+    import {defineConfig} from 'tsup';
+
+    export default defineConfig({
+      entry: ['./src/index.ts'],
+      format: ['esm','cjs'],
+      clean: true,
+      dts: true,
+      splitting: true,
+      treeshake: true,
+    });
+  `),
   '.prettierrc': json<PrettierRC>({
     $schema: 'http://json.schemastore.org/prettierrc',
     singleQuote: true,
@@ -67,10 +97,20 @@ await writeFiles(realPackageDirectory, {
     useTabs: true,
     quoteProps: 'consistent',
   }),
-  'src/index.ts': `export function add(a: number, b: number) {
-    return a + b;
-  }`,
+  'src/index.ts': code(`
+    export function add(a: number, b: number) {
+      return a + b;
+    }
+  `),
   'LICENSE': await mit(),
+  '.gitignore': code(`
+    node_modules
+    dist
+    bun.lockb
+    .DS_Store
+    .idea
+    .vscode
+  `),
 });
 
-await $`bun i prettier tsup --dev`.cwd(realPackageDirectory);
+await $`${PACKAGE_MANAGER} install prettier tsup --save-dev`.cwd(realPackageDirectory);

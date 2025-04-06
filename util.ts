@@ -11,10 +11,13 @@ export function getBinName() {
   return Bun.argv[1]!;
 }
 
-export function die(messages: string | string[], code = 1): never {
-  const string = Array.isArray(messages) ? messages.join('\n') : messages;
+export function die(messages?: undefined | string | string[], code = 1): never {
+  if (messages) {
+    const string = Array.isArray(messages) ? messages.join('\n') : messages;
 
-  console.error(ansi.red + string);
+    console.error(ansi.red + string);
+  }
+
   process.exit(code);
 }
 
@@ -23,6 +26,8 @@ export async function confirm(message: string, options: { acceptDefault: boolean
     input: process.stdin,
     output: process.stdout,
   });
+
+  AbortSignal.timeout;
 
   const answer = await i.question(message);
 
@@ -35,7 +40,7 @@ export async function confirm(message: string, options: { acceptDefault: boolean
 
 export async function confirmOrDie(...args: Parameters<typeof confirm>) {
   const result = await confirm(...args);
-  if (!result) die(args[0]);
+  if (!result) die();
 }
 
 export async function isDirectoryEmpty(path: string) {
@@ -51,4 +56,30 @@ export async function writeFiles(dir: string, files: Record<string, string>) {
 
 export function json<T>(value: T) {
   return JSON.stringify(value, null, '\t');
+}
+
+// finds the largest common indent and removes it from each line
+export function code(code: string) {
+  const allLines = code.split('\n');
+
+  const indexOfFirstNonEmptyLine = allLines.findIndex(line => line.trim() !== '');
+  const indexOfLastNonEmptyLine = allLines.findLastIndex(line => line.trim() !== '');
+
+  const lines = allLines.slice(indexOfFirstNonEmptyLine, indexOfLastNonEmptyLine + 1);
+
+  const commonIndent = lines[0]!.match(/^\s*/)?.[0];
+
+  return lines.map(line => line.slice(commonIndent!.length)).join('\n');
+}
+
+export function flagIsElse<const T, Else>(
+  value: string | boolean | undefined,
+  options: T[],
+  elseValue: Else
+) {
+  if (typeof value === 'string') {
+    if (options.includes(value as T)) return value as T;
+  }
+
+  return elseValue;
 }
