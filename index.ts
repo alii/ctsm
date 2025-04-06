@@ -61,6 +61,7 @@ await writeFiles(realPackageDirectory, {
     version: '0.0.1',
     description: 'powered_by_ctsm',
     license: 'MIT',
+    type: 'module',
     scripts: {
       build: 'tsup',
       release: `${PACKAGE_MANAGER} run build && ${PACKAGE_MANAGER} publish`,
@@ -69,7 +70,7 @@ await writeFiles(realPackageDirectory, {
       './package.json': './package.json',
       '.': {
         import: './dist/index.js',
-        require: './dist/index.js',
+        require: './dist/index.cjs',
       },
     },
     files: ['LICENSE', 'README.md', 'dist'],
