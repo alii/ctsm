@@ -6,16 +6,7 @@ import {$} from 'bun';
 import * as path from 'node:path';
 import {parse} from './args.ts';
 import {mit} from './mit.ts';
-import {
-	code,
-	confirmOrDie,
-	die,
-	flagIsElse,
-	getBinName,
-	isDirectoryEmpty,
-	json,
-	writeFiles,
-} from './util.ts';
+import {code, confirmOrDie, die, getBinName, isDirectoryEmpty, json, writeFiles} from './util.ts';
 
 const cwd = process.cwd();
 
@@ -24,8 +15,12 @@ const probablyIsThisProject = await isDirectoryEmpty(cwd);
 const [flags, args] = parse();
 const [directoryName = probablyIsThisProject ? cwd : null] = args;
 
-const SKIP_CONFIRMATION = flags.y === true;
-const PACKAGE_MANAGER = flagIsElse(flags.p, ['bun', 'npm', 'yarn', 'pnpm'], 'bun');
+const SKIP_CONFIRMATION = flags.getBooleanOrDefault('y', false);
+const PACKAGE_MANAGER = flags.getStringAsOptionOrDefault(
+	'p',
+	['bun', 'npm', 'yarn', 'pnpm'],
+	'bun',
+);
 
 if (!directoryName) {
 	if (probablyIsThisProject) {
